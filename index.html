@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Drawing a Rectangle on the Canvas</title>
+<style>
+canvas {
+border: 1px solid #000;
+}
+</style>
+<script>
+      window.onload = function() {
+      var canvas = document.getElementById("myCanvas");
+      var context = canvas.getContext("2d");
+       
+      context.globalAlpha = 1;
+     //context.globalCompositeOperation = "lighter";
+        context.globalCompositeOperation='destination-over';
+      var canvasMaxY = canvas.height;
+       
+       
+       var arrayOfObjects = [
+
+{ "candleOpen":34.080002,"candleHigh": 36.060001, "candleLow": 33.410000,"candleClose": 36.060001 },
+{ "candleOpen":36.040001,"candleHigh": 37.500000, "candleLow": 35.790001,"candleClose": 36.950001 },
+{ "candleOpen":37.099998,"candleHigh": 39.720001, "candleLow":37.060001,"candleClose":  39.169998 },
+{ "candleOpen":38.669998,"candleHigh": 39.360001, "candleLow":37.730000, "candleClose":38.820000 },
+{  "candleOpen":38.869999, "candleHigh":39.669998, "candleLow":37.770000, "candleClose":39.150002 },
+{ "candleOpen":39.099998,"candleHigh": 43.419998,"candleLow": 38.580002, "candleClose":43.209999 },
+{ "candleOpen":43.209999, "candleHigh":43.889999, "candleLow": 41.700001, "candleClose":43.290001 },
+{ "candleOpen":43.250000, "candleHigh":43.500000, "candleLow":40.549999, "candleClose":40.880001 },
+{  "candleOpen":40.849998, "candleHigh":41.700001,  "candleLow":39.549999,  "candleClose":40.610001 },
+{ "candleOpen":40.619999, "candleHigh":41.040001, "candleLow":36.270000, "candleClose":36.790001 },
+{ "candleOpen":36.970001, "candleHigh":39.669998, "candleLow":36.099998, "candleClose":38.630001 },
+{ "candleOpen":38.630001, "candleHigh":42.840000, "candleLow":38.160000,  "candleClose":40.380001}
+]
+       
+      var candleMin = 30
+      var candleMax = 45 - candleMin;
+     
+      var candleOpen = 0;
+      var candleClose = 0;
+     
+      var candleHigh = 0;
+      var candleLow = 0;
+     
+      var i = 1;            
+      var x = 0;
+      var y = 0;
+      var recHeight = 0;
+     
+      var lineTopPoint = 0;
+      var lineBottomPoint = 0;
+     
+     
+      function myLoop() {      
+        setTimeout(function() {  
+          //=========================================
+          var object = arrayOfObjects[i-1];
+          candleOpen =  object['candleOpen'] - candleMin;
+          candleClose =  object['candleClose']- candleMin;
+     
+          candleHigh =  object['candleHigh']- candleMin;
+          candleLow =  object['candleLow']- candleMin;
+           
+          recHeight = 0;
+          lineTopPoint = 0;
+          lineBottomPoint = 0;
+         
+         
+          x = x + 30;
+          //y = 20 *  Math.floor(Math.random() * 11);
+         
+         
+          lineTopPoint = canvasMaxY - ((candleHigh/candleMax).toFixed(2) * canvasMaxY);
+          lineBottomPoint = canvasMaxY - ((candleLow/candleMax).toFixed(2) * canvasMaxY);
+         
+          //Draw Line
+          context.moveTo(x + 10, lineBottomPoint); //BOTTOM
+          context.lineTo(x + 10, lineTopPoint); //TOP
+          context.stroke();
+         
+         
+          if(candleClose > candleOpen)
+          {
+             y = canvasMaxY - ((candleOpen/candleMax).toFixed(2) * canvasMaxY);
+             recHeight = (canvasMaxY - ((candleClose/candleMax).toFixed(2) * canvasMaxY)) - y;
+
+             //Draw rectangle
+             context.rect(x, y, 20, recHeight);
+             context.fillStyle = "white";
+             context.fill();
+             context.lineWidth = 1;
+             context.strokeStyle = "black";
+             context.stroke();
+           }
+           else
+           {
+             y = canvasMaxY - ((candleClose/candleMax).toFixed(2) * canvasMaxY);
+             recHeight = (canvasMaxY - ((candleOpen/candleMax).toFixed(2) * canvasMaxY)) - y;
+
+             //Draw rectangle
+             context.rect(x, y, 20, recHeight);
+             context.fillStyle = "black";
+             context.fill();
+             context.lineWidth = 1;
+             context.strokeStyle = "black";
+             context.stroke();
+           
+           }
+             
+             
+             
+          i++;                    
+          if (i < arrayOfObjects.length + 1) {        
+            myLoop();        
+          }                    
+        }, 400)
+      }
+
+myLoop();  
+     
+     
+
+   
+    };
+</script>
+</head>
+<body>
+    <canvas id="myCanvas" width="800" height="600"></canvas>
+</body>
+</html>
