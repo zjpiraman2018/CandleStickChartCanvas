@@ -17,8 +17,14 @@ border: 1px solid #000;
      //context.globalCompositeOperation = "lighter";
         context.globalCompositeOperation='destination-over';
       var canvasMaxY = canvas.height;
+      var canvasMaxX = canvas.width;
+        
       var canvasPaddingTop = 50;
       var canvasPaddingBottom = 50;  
+        
+      var canvasPaddingLeft = 50; 
+      var canvasPaddingRight = 5; 
+        
 	  var canvasMaxYWithPadding = canvas.height - (canvasPaddingTop + canvasPaddingBottom);
 
        var arrayOfObjects = [
@@ -54,18 +60,21 @@ border: 1px solid #000;
       var lineTopPoint = 0;
       var lineBottomPoint = 0;
 
-
+      var horizontalLineTopPoint = 0;
+      var horizontalLineBottomPoint = 0;
+        
+        
       function myLoop() {      
         setTimeout(function() {  
           //=========================================
           var object = arrayOfObjects[i-1];
-          //candleOpen =  object['candleOpen'] - candleMin;
-          candleOpen =  15;
+          candleOpen =  object['candleOpen'] - candleMin;
+          //candleOpen =  15;
           candleClose =  object['candleClose']- candleMin;
 
           candleHigh =  object['candleHigh']- candleMin;
-          //candleLow =  object['candleLow']- candleMin;
-	      candleLow =  0;
+          candleLow =  object['candleLow']- candleMin;
+	      //candleLow =  0;
           
           
           recHeight = 0;
@@ -73,10 +82,10 @@ border: 1px solid #000;
           lineBottomPoint = 0;
 
 
-          x = x + 30;
+          x = x + 60;
           //y = 20 *  Math.floor(Math.random() * 11);
 
-
+	      //Candle Line Y Point
           lineTopPoint = canvasMaxYWithPadding - ((candleHigh/candleMax).toFixed(2) * canvasMaxYWithPadding);
           lineBottomPoint = canvasMaxYWithPadding - ((candleLow/candleMax).toFixed(2) * canvasMaxYWithPadding);
 
@@ -85,6 +94,29 @@ border: 1px solid #000;
           context.lineTo(x + 10, lineTopPoint+ canvasPaddingTop); //TOP
           context.stroke();
 
+          
+          //Draw Horizontal Line
+          var inbetweenLineHeight = 0;
+          for (let a = 0; a < 6; a++) {
+            
+             inbetweenLineHeight = a * 3;
+             horizontalLineTopPoint = (canvasMaxYWithPadding - ((inbetweenLineHeight/candleMax).toFixed(2) * canvasMaxYWithPadding)) + canvasPaddingTop;
+          
+
+          	 context.moveTo(canvasPaddingLeft, horizontalLineTopPoint);
+             context.lineTo(canvasMaxX - (canvasPaddingLeft + canvasPaddingRight),horizontalLineTopPoint);
+             context.lineWidth = 1;
+    context.strokeStyle = 'rgb(232, 232, 232)';
+             context.stroke();
+            
+   			//Add Text to Horizontal Line	
+            context.font = "14px Arial";
+            context.fillText("$" + (inbetweenLineHeight + candleMin), canvasPaddingLeft - 30, horizontalLineTopPoint + 4);
+
+          }
+          
+          
+          
 
           if(candleClose > candleOpen)
           {
@@ -118,16 +150,17 @@ border: 1px solid #000;
 
           i++; 
           
-          /*
+          
           if (i < arrayOfObjects.length + 1) {        
             myLoop();        
           } 
-          */
           
+          
+          /*
           if (i < 1) {        
             myLoop();        
           } 
-          
+           */
         }, 400)
       }
 
