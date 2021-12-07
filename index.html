@@ -13,9 +13,9 @@ border: 1px solid #000;
       var canvas = document.getElementById("myCanvas");
       var context = canvas.getContext("2d");
 
-      context.globalAlpha = 1;
-     //context.globalCompositeOperation = "lighter";
-        context.globalCompositeOperation='destination-over';
+
+    
+  
       var canvasMaxY = canvas.height;
       var canvasMaxX = canvas.width;
         
@@ -63,6 +63,30 @@ border: 1px solid #000;
       var horizontalLineTopPoint = 0;
       var horizontalLineBottomPoint = 0;
         
+
+                  //Draw Horizontal Line
+          var inbetweenLineHeight = 0;
+          for (let a = 0; a < 6; a++) {
+            
+             inbetweenLineHeight = a * 3;
+             horizontalLineTopPoint = (canvasMaxYWithPadding - ((inbetweenLineHeight/candleMax).toFixed(2) * canvasMaxYWithPadding)) + canvasPaddingTop;
+          
+             context.beginPath();
+          	 context.moveTo(canvasPaddingLeft, horizontalLineTopPoint);
+             context.lineTo(canvasMaxX - (canvasPaddingLeft + canvasPaddingRight),horizontalLineTopPoint);
+             context.lineWidth = 1;
+            
+             context.strokeStyle = '#d4d4d4';
+           
+             context.stroke();
+             context.beginPath(); 
+   			//Add Text to Horizontal Line	
+             context.strokeStyle = "black";
+            context.font = "14px Arial";
+            context.fillText("$" + (inbetweenLineHeight + candleMin), canvasPaddingLeft - 30, horizontalLineTopPoint + 4);
+             context.beginPath(); 
+          }
+          
         
       function myLoop() {      
         setTimeout(function() {  
@@ -90,31 +114,13 @@ border: 1px solid #000;
           lineBottomPoint = canvasMaxYWithPadding - ((candleLow/candleMax).toFixed(2) * canvasMaxYWithPadding);
 
           //Draw Line
+        context.beginPath(); 
           context.moveTo(x + 10, lineBottomPoint + canvasPaddingTop); //BOTTOM
           context.lineTo(x + 10, lineTopPoint+ canvasPaddingTop); //TOP
           context.stroke();
-
-          
-          //Draw Horizontal Line
-          var inbetweenLineHeight = 0;
-          for (let a = 0; a < 6; a++) {
-            
-             inbetweenLineHeight = a * 3;
-             horizontalLineTopPoint = (canvasMaxYWithPadding - ((inbetweenLineHeight/candleMax).toFixed(2) * canvasMaxYWithPadding)) + canvasPaddingTop;
+          context.beginPath(); 
           
 
-          	 context.moveTo(canvasPaddingLeft, horizontalLineTopPoint);
-             context.lineTo(canvasMaxX - (canvasPaddingLeft + canvasPaddingRight),horizontalLineTopPoint);
-             context.lineWidth = 1;
-    context.strokeStyle = 'rgb(232, 232, 232)';
-             context.stroke();
-            
-   			//Add Text to Horizontal Line	
-            context.font = "14px Arial";
-            context.fillText("$" + (inbetweenLineHeight + candleMin), canvasPaddingLeft - 30, horizontalLineTopPoint + 4);
-
-          }
-          
           
           
 
@@ -127,9 +133,12 @@ border: 1px solid #000;
              context.rect(x, y + canvasPaddingTop, 20, recHeight);
              context.fillStyle = "white";
              context.fill();
+             
              context.lineWidth = 1;
              context.strokeStyle = "black";
+             
              context.stroke();
+            
            }
            else
            {
@@ -137,12 +146,17 @@ border: 1px solid #000;
              recHeight = (canvasMaxYWithPadding - ((candleOpen/candleMax).toFixed(2) * canvasMaxYWithPadding)) - y;
 
              //Draw rectangle
+        
              context.rect(x, y+ canvasPaddingTop, 20, recHeight);
              context.fillStyle = "black";
              context.fill();
+            
              context.lineWidth = 1;
+            
              context.strokeStyle = "black";
+            
              context.stroke();
+            
 
            }
 
