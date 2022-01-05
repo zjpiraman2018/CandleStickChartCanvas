@@ -27,21 +27,25 @@ border: 1px solid #000;
         
 	  var canvasMaxYWithPadding = canvas.height - (canvasPaddingTop + canvasPaddingBottom);
 
+
+
        var arrayOfObjects = [
 
-{ "candleOpen":34.080002,"candleHigh": 36.060001, "candleLow": 33.410000,"candleClose": 36.060001 },
-{ "candleOpen":36.040001,"candleHigh": 37.500000, "candleLow": 35.790001,"candleClose": 36.950001 },
-{ "candleOpen":37.099998,"candleHigh": 39.720001, "candleLow":37.060001,"candleClose":  39.169998 },
-{ "candleOpen":38.669998,"candleHigh": 39.360001, "candleLow":37.730000, "candleClose":38.820000 },
-{  "candleOpen":38.869999, "candleHigh":39.669998, "candleLow":37.770000, "candleClose":39.150002 },
-{ "candleOpen":39.099998,"candleHigh": 43.419998,"candleLow": 38.580002, "candleClose":43.209999 },
-{ "candleOpen":43.209999, "candleHigh":43.889999, "candleLow": 41.700001, "candleClose":43.290001 },
-{ "candleOpen":43.250000, "candleHigh":43.500000, "candleLow":40.549999, "candleClose":40.880001 },
-{  "candleOpen":40.849998, "candleHigh":41.700001,  "candleLow":39.549999,  "candleClose":40.610001 },
-{ "candleOpen":40.619999, "candleHigh":41.040001, "candleLow":36.270000, "candleClose":36.790001 },
-{ "candleOpen":36.970001, "candleHigh":39.669998, "candleLow":36.099998, "candleClose":38.630001 },
-{ "candleOpen":38.630001, "candleHigh":42.840000, "candleLow":38.160000,  "candleClose":40.380001}
+{ "candleOpen":34.080002,"candleHigh": 36.060001, "candleLow": 33.410000,"candleClose": 36.060001,"candleDate": "Jan"  },
+{ "candleOpen":36.040001,"candleHigh": 37.500000, "candleLow": 35.790001,"candleClose": 36.950001,"candleDate": "Feb" },
+{ "candleOpen":37.099998,"candleHigh": 39.720001, "candleLow":37.060001,"candleClose":  39.169998,"candleDate": "Mar" },
+{ "candleOpen":38.669998,"candleHigh": 39.360001, "candleLow":37.730000, "candleClose":38.820000,"candleDate": "Apr" },
+{  "candleOpen":38.869999, "candleHigh":39.669998, "candleLow":37.770000, "candleClose":39.150002,"candleDate": "May" },
+{ "candleOpen":39.099998,"candleHigh": 43.419998,"candleLow": 38.580002, "candleClose":43.209999,"candleDate": "Jun" },
+{ "candleOpen":43.209999, "candleHigh":43.889999, "candleLow": 41.700001, "candleClose":43.290001,"candleDate": "Jul" },
+{ "candleOpen":43.250000, "candleHigh":43.500000, "candleLow":40.549999, "candleClose":40.880001,"candleDate": "Aug" },
+{  "candleOpen":40.849998, "candleHigh":41.700001,  "candleLow":39.549999,  "candleClose":40.610001,"candleDate": "Sep" },
+{ "candleOpen":40.619999, "candleHigh":41.040001, "candleLow":36.270000, "candleClose":36.790001,"candleDate": "Oct" },
+{ "candleOpen":36.970001, "candleHigh":39.669998, "candleLow":36.099998, "candleClose":38.630001,"candleDate": "Nov" },
+{ "candleOpen":38.630001, "candleHigh":42.840000, "candleLow":38.160000,  "candleClose":40.380001,"candleDate": "Dec"}
 ]
+
+
 
       var candleMin = 30
       var candleMax = 45 - candleMin;
@@ -51,6 +55,8 @@ border: 1px solid #000;
 
       var candleHigh = 0;
       var candleLow = 0;
+      var candleDate = '';
+
 
       var i = 1;            
       var x = 0;
@@ -62,6 +68,18 @@ border: 1px solid #000;
 
       var horizontalLineTopPoint = 0;
       var horizontalLineBottomPoint = 0;
+        
+        
+        	//Add Chart Title Text 
+            context.beginPath(); 
+            context.lineWidth = 1;
+            context.font = "18px Arial";
+            context.fillStyle = "black";
+            context.fillText("Stock Price: AT&T vs Verizon for 2016" ,(canvasMaxX/2) - 140 ,25);
+            context.beginPath(); 
+        
+        
+        
         
 
                   //Draw Horizontal Line
@@ -99,14 +117,14 @@ border: 1px solid #000;
           candleHigh =  object['candleHigh']- candleMin;
           candleLow =  object['candleLow']- candleMin;
 	      //candleLow =  0;
-          
+          candleDate = object['candleDate'];
           
           recHeight = 0;
           lineTopPoint = 0;
           lineBottomPoint = 0;
 
 
-          x = x + 60;
+          x = x + 90;
           //y = 20 *  Math.floor(Math.random() * 11);
 
 	      //Candle Line Y Point
@@ -121,6 +139,27 @@ border: 1px solid #000;
           context.beginPath(); 
           
 
+
+
+
+	      //X-Axis Label line Marker
+
+          context.beginPath(); 
+          context.moveTo(x + 10, canvasMaxYWithPadding + 60); //BOTTOM
+          context.lineTo(x + 10,  canvasMaxYWithPadding + 50); //TOP
+          context.lineWidth = 1;
+          context.strokeStyle = '#d4d4d4';
+          context.stroke();
+          context.beginPath(); 
+
+
+			//Add X-Axis Label Text 
+            context.beginPath(); 
+            context.lineWidth = 1;
+            context.font = "14px Arial";
+            context.fillStyle = "black";
+            context.fillText(candleDate , x - 2 , canvasMaxYWithPadding + 76);
+             context.beginPath(); 
           
           
 
@@ -187,6 +226,6 @@ myLoop();
 </script>
 </head>
 <body>
-    <canvas id="myCanvas" width="800" height="600"></canvas>
+    <canvas id="myCanvas" width="1200" height="600"></canvas>
 </body>
 </html>
